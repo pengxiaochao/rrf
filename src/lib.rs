@@ -22,10 +22,7 @@ pub fn fuse<T: Clone + Eq + std::hash::Hash + Ord>(
     }
 
     let mut result: Vec<(T, f64)> = score.into_iter().collect();
-    result.sort_by(|a, b| {
-        b.1.partial_cmp(&a.1).unwrap()
-            .then_with(|| a.0.cmp(&b.0))
-    });
+    result.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap().then_with(|| a.0.cmp(&b.0)));
     result
 }
 
@@ -51,10 +48,7 @@ pub fn fuse_weighted<T: Clone + Eq + std::hash::Hash + Ord>(
     }
 
     let mut result: Vec<(T, f64)> = score.into_iter().collect();
-    result.sort_by(|a, b| {
-        b.1.partial_cmp(&a.1).unwrap()
-            .then_with(|| a.0.cmp(&b.0))
-    });
+    result.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap().then_with(|| a.0.cmp(&b.0)));
     result
 }
 
@@ -64,9 +58,9 @@ mod tests {
 
     #[test]
     fn test_rrf_basic() {
-        let bm25   = vec!["D3", "D1", "D2", "D5"];
+        let bm25 = vec!["D3", "D1", "D2", "D5"];
         let vector = vec!["D2", "D4", "D1"];
-        let rules  = vec!["D5", "D2", "D6"];
+        let rules = vec!["D5", "D2", "D6"];
 
         let fused = fuse(&[bm25.clone(), vector.clone(), rules.clone()], 60);
         assert!(fused.iter().any(|(d, _)| d == &"D2"));
@@ -74,15 +68,11 @@ mod tests {
 
     #[test]
     fn test_rrf_weighted() {
-        let bm25   = vec!["D3", "D1", "D2", "D5"];
+        let bm25 = vec!["D3", "D1", "D2", "D5"];
         let vector = vec!["D2", "D4", "D1"];
-        let rules  = vec!["D5", "D2", "D6"];
+        let rules = vec!["D5", "D2", "D6"];
 
-        let fused_w = fuse_weighted(
-            &[bm25, vector, rules],
-            &[1.0, 2.0, 0.5],
-            60,
-        );
+        let fused_w = fuse_weighted(&[bm25, vector, rules], &[1.0, 2.0, 0.5], 60);
         assert!(fused_w[0].0 == "D2"); // D2 应该最靠前
     }
 }

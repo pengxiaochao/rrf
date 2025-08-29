@@ -1,9 +1,9 @@
 use rrf::{fuse, fuse_weighted};
 
 fn main() {
-    let bm25   = vec!["D3", "D1", "D2", "D5"];
+    let bm25 = vec!["D3", "D1", "D2", "D5"];
     let vector = vec!["D2", "D4", "D1"];
-    let rules  = vec!["D5", "D2", "D6"];
+    let rules = vec!["D5", "D2", "D6"];
 
     println!("=== 普通 RRF ===");
     for (doc, score) in fuse(&[bm25.clone(), vector.clone(), rules.clone()], 60) {
