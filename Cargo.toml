@@ -1,0 +1,10 @@
+[package]
+name = "rrf"
+version = "0.1.0"
+edition = "2024"
+authors = ["Peng Xiao Chao <iam@au92.com>"]
+description = "Reciprocal Rank Fusion (RRF) algorithm implementation in Rust"
+license = "MIT"
+repository = "https://github.com/pengxiaochao/rrf"
+
+[dependencies]
